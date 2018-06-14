@@ -13,4 +13,12 @@ class App extends Component {
   }
 }
 
+
+const styles = {
+  display: 'flex',
+  alignItems: 'stretch',
+  height: '100vh',
+}
+
+
 export default App;
