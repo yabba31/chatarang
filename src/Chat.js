@@ -11,4 +11,36 @@ class Chat extends Component {
     }
 }
 
+
+
+
+
+componentWillMount(){
+    this.syncMessages()
+}
+
+componentDidUpdate(prevProps) {
+    if (preProps.room.name !== this.props.room.name){
+        this.syncsMessages()
+    }
+}
+
+}
+syncMessages =()=> {
+    base.syncState( '${this.props.room.name}/messages')
+}
+
+
+
+
+
+addMessage = (body) => {
+    const messages = [... this.state.messages]
+    messages
+}
+
+
+
+
+
 export default Chat
