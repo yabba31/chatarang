@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { StyleSheet, css } from 'aphrodite'
 
+import { auth, googleProvider } from './base'
+
 class SignIn extends Component {
   state = {
     email: '',
@@ -12,21 +14,12 @@ class SignIn extends Component {
 
   handleSubmit = (ev) => {
     ev.preventDefault()
-    this.props.handleAuth({
-      uid: '234243',
-      userName: this.state.email,
-      email: this.state.email,
-    })
+    // do something?
   }
 
-authenticate = () => {
-    auth
-    .signInwithPopup(googleProvider)
-    .then(result =>this.props)
-}
-
-
-
+  authenticate = () => {
+    auth.signInWithPopup(googleProvider)
+  }
 
   render() {
     return (
@@ -43,7 +36,7 @@ authenticate = () => {
             onSubmit={this.handleSubmit}
           >
             <h1>Welcome!</h1>
-            <label htmlFor="email" className={css(styles.label)}>
+            {/* <label htmlFor="email" className={css(styles.label)}>
               Email
             </label>
             <input
@@ -55,6 +48,17 @@ authenticate = () => {
             />
             <button type="submit" className={css(styles.button)}>
               Sign In
+            </button>
+
+            <div>or</div> */}
+
+            <button
+              type="button"
+              className={css(styles.button)}
+              onClick={this.authenticate}
+            >
+              <i className={`fab fa-google ${css(styles.brandIcon)}`}></i>
+              Sign in with Google
             </button>
           </form>
 
@@ -106,10 +110,10 @@ const styles = StyleSheet.create({
 
   form: {
     width: '40rem',
-    height: '15rem',
     backgroundColor: 'white',
     boxShadow: '0 1px 1px rgba(0,0,0,.1)',
     marginBottom: '2rem',
+    paddingBottom: '2rem',
   },
 
   label: {
@@ -146,7 +150,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#ff3333',
     color: 'white',
     width: '20rem',
+    cursor: 'pointer',
   },
+
+  brandIcon: {
+    marginRight: '1rem',
+  }
 })
 
 export default SignIn
