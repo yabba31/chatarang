@@ -1,0 +1,30 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const app = firebase.initializeApp(config)
+
+export const googleProvider = new firebase.auth.GoogleAuthProvider()
