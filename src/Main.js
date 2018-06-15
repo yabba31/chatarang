@@ -21,10 +21,10 @@ class Main extends Component {
         <Sidebar
           user={this.props.user}
           signOut={this.props.signOut}
-          loadRoom={this.loadRoom}
+         loadRoom={this.loadRoom}
         />
-        <Chat
-          user={this.props.user}
+        <Chat 
+        user = {this.props.user}
           room={this.state.room}
         />
       </div>

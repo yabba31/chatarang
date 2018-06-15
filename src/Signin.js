@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { StyleSheet, css } from 'aphrodite'
 
 import { auth, googleProvider } from './base'
+import { auth, twitterProvider} from './base'
 
 class SignIn extends Component {
   state = {
@@ -57,6 +58,9 @@ class SignIn extends Component {
               className={css(styles.button)}
               onClick={this.authenticate}
             >
+               <button classname={css(styles.button)}>
+                  
+
               <i className={`fab fa-google ${css(styles.brandIcon)}`}></i>
               Sign in with Google
             </button>
@@ -114,6 +118,8 @@ const styles = StyleSheet.create({
     boxShadow: '0 1px 1px rgba(0,0,0,.1)',
     marginBottom: '2rem',
     paddingBottom: '2rem',
+
+
   },
 
   label: {
