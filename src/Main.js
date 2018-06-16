@@ -24,7 +24,7 @@ class Main extends Component {
          loadRoom={this.loadRoom}
         />
         <Chat 
-        user = {this.props.user}
+        user={this.props.user}
           room={this.state.room}
         />
       </div>
