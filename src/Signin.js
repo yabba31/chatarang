@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { StyleSheet, css } from 'aphrodite'
 
-import { auth, googleProvider } from './base'
-import { auth, twitterProvider} from './base'
+
+import { auth, ,googleProvider, twitterProvider} from './base'
 
 class SignIn extends Component {
   state = {
@@ -22,6 +22,14 @@ class SignIn extends Component {
     auth.signInWithPopup(googleProvider)
     
   }
+
+  authenticateTwitter =() => {
+    auth.signInWithPopup(twitterProvider)
+    .then(result => this.props.handleAuth(result.user))
+    .catch(error => console.log(error))
+  }
+
+
 
   render() {
     return (
@@ -56,18 +64,18 @@ class SignIn extends Component {
 
             <button
               type="button"
-              className={css(styles.button)}
-              onClick={this.authenticate}
+              className={css(styles.button,styles.twitter)}
+              onClick={this.authenticateTwitter}
             >
                <button classname={css(styles.button)}>
 
 
-              <i className={`fab fa-google ${css(styles.brandIcon)}`}></i>
-              Sign in with Google
+              <i className={`fab fa-twitter ${css(styles.brandIcon)}`}></i>
+              Sign in with twitter
             </button>
           </form>
 
-               <i className={`fab fa-twitter-square ${css(styles.brandIcon)}`}></i>
+               <i className={`fab fa-twitter ${css(styles.brandIcon)}`}></i>
               Sign in with Twitter
             </button>
           </form>
@@ -107,6 +115,10 @@ const styles = StyleSheet.create({
     lineHeight: '80px',
     fontSize: '2rem',
   },
+
+  twitter:{
+    backgroundColor: 'blue'
+  }
 
   main: {
     flex: 1,
