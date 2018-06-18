@@ -64,18 +64,18 @@ class SignIn extends Component {
 
             <button
               type="button"
-              className={css(styles.button,styles.twitter)}
-              onClick={this.authenticateTwitter}
+              className={css(styles.button,styles.)}
+              onClick={this.authenticateGithub}
             >
                <button classname={css(styles.button)}>
 
 
               <i className={`fab fa-twitter ${css(styles.brandIcon)}`}></i>
-              Sign in with twitter
+              Sign in with Github
             </button>
           </form>
 
-               <i className={`fab fa-twitter ${css(styles.brandIcon)}`}></i>
+               <i className={`fab fa-twitter ${css(styles.github)}`}></i>
               Sign in with Twitter
             </button>
           </form>
@@ -118,6 +118,10 @@ const styles = StyleSheet.create({
 
   twitter:{
     backgroundColor: 'blue'
+  }
+  github:{
+    backgroundColor:  'red'
+    color: 'white'
   }
 
   main: {
