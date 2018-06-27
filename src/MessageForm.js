@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { StyleSheet, css } from 'aphrodite'
+import 'bad-words'
 
 class MessageForm extends Component {
   state = {
@@ -8,8 +9,23 @@ class MessageForm extends Component {
 
   handleSubmit = (ev) => {
     ev.preventDefault()
-    this.props.addMessage(this.state.body)
+
+    //handle word censoration
+    const Filter = require('bad-words'),
+    filter = new Filter();
+    filter.addWords(['heck', 'frick'])
+    const censoredBody = filter.clean(this.state.body)
+
+
+    this.props.addMessage(censoredBody, false)
     this.setState({ body: '' })
+  }
+
+  handleImage = (ev) => {
+    const fileReader = new FileReader()
+    const file = ev.target.files[0]
+    fileReader.readAsDataURL(file)
+    fileReader.onloadend = () => this.props.addMessage(fileReader.result, true)
   }
 
   handleChange = (ev) => {
@@ -24,7 +40,22 @@ class MessageForm extends Component {
       >
         <div className={css(styles.icon)}>
           <i className="fas fa-comment-alt"></i>
-        </div>
+          <label htmlFor="image_uploads">
+            <i 
+              className="fas fa-image" 
+              style = {{marginLeft: "5px"}}
+            ></i>
+          </label>
+          <input 
+            type="file" 
+            id="image_uploads" 
+            name="image_uploads" 
+            style = {{display: 'none'}}
+            onChange = {(ev) => this.handleImage(ev)}
+            accept=".jpg, .jpeg, .png"
+          />
+          </div>
+
         <input
           type="text"
           name="body"

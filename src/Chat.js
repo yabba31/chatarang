@@ -43,12 +43,14 @@ class Chat extends Component {
     this.setState({ rebaseBinding })
   }
 
-  addMessage = (body) => {
+  addMessage = (body, isImg) => {
     const messages = [...this.state.messages]
     messages.push({
-      id: Date.now(),
+      id: `${this.props.user.uid}-${Date.now()}`,
       user: this.props.user,
+      isImg,
       body,
+      createdAt: Date.now(),
     })
 
     this.setState({ messages })
@@ -57,7 +59,7 @@ class Chat extends Component {
   render() {
     return (
       <div className="Chat" style={styles}>
-        <ChatHeader room={this.props.room} />
+        <ChatHeader room={this.props.room} removeRoom={this.props.removeRoom}/>
         <MessageList
           messages={this.state.messages}
           room={this.props.room}

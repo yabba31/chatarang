@@ -1,21 +1,40 @@
-import React from 'react'
+import React, { Component } from 'react'
 
 import Message from './Message'
 
-const MessageList = ({ messages, room }) => {
-  return (
-    <div className="MessageList" style={styles.list}>
-      <div className="roomAnnouncement" style={styles.announcement}>
-        <h3 style={styles.h3}>
-          #{room.name}
-        </h3>
-        <p>This is the very beginning of the #{room.name} room.</p>
+class MessageList extends Component {
+  componentDidUpdate(prevProps) {
+    if (prevProps.messages.length < this.props.messages.length) {
+      this.scrollToBottom()
+    }
+  }
+
+  scrollToBottom = () => {
+    this.messagesEnd.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  render() {
+    const { messages, room } = this.props
+
+    return (
+      <div className="MessageList" style={styles.list}>
+        <div className="roomAnnouncement" style={styles.announcement}>
+          <h3 style={styles.h3}>
+            #{room.displayName}
+          </h3>
+          {
+            room.dm
+              ? <p>This is the very beginning of the direct message.</p>
+              : <p>This is the very beginning of the #{room.displayName} room.</p>
+          }
+        </div>
+        {
+          messages.map(msg => <Message key={msg.id} message={msg} isImg={msg.isImg} />)
+        }
+        <div className="end" ref={el => this.messagesEnd = el}></div>
       </div>
-      {
-        messages.map(msg => <Message key={msg.id} message={msg} />)
-      }
-    </div>
-  )
+    )
+  }
 }
 
 const styles = {
@@ -27,7 +46,7 @@ const styles = {
   },
 
   announcement: {
-    padding: '2rem 1rem',
+    padding: '2rem 1rem 10rem',
   },
 
   h3: {

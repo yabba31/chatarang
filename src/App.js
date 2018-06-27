@@ -2,21 +2,29 @@ import React, { Component } from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
 
 import './App.css'
-import { auth } from './base'
+import base, { auth } from './base'
 import SignIn from './SignIn'
 import Main from './Main'
 
 class App extends Component {
-  state = {
-    user: {},
+  constructor() {
+    super()
+
+    const user = JSON.parse(localStorage.getItem('user')) || {}
+    this.state = {
+      user,
+      users: {},
+    }
   }
 
-  componentWillMount() {
-    const user = JSON.parse(localStorage.getItem('user'))
-
-    if (user) {
-      this.setState({ user })
-    }
+  componentDidMount() {
+    base.syncState(
+      'users',
+      {
+        context: this,
+        state: 'users',
+      }
+    )
 
     auth.onAuthStateChanged(
       user => {
@@ -30,12 +38,20 @@ class App extends Component {
   }
 
   handleAuth = (oauthUser) => {
+    // Build the user object
     const user = {
       email: oauthUser.email,
       uid: oauthUser.uid,
       displayName: oauthUser.displayName,
+      photoUrl: oauthUser.photoURL,
     }
-    this.setState({ user })
+
+    // Add/update the user in the list
+    const users = {...this.state.users}
+    users[user.uid] = user
+
+    // Update state and localStorage
+    this.setState({ user, users })
     localStorage.setItem('user', JSON.stringify(user))
   }
 
@@ -53,6 +69,12 @@ class App extends Component {
   }
 
   render() {
+    const mainProps = {
+      user: this.state.user,
+      signOut: this.signOut,
+      users: this.state.users,
+    }
+
     return (
       <div className="App">
         <Switch>
@@ -69,8 +91,7 @@ class App extends Component {
             render={navProps => (
               this.signedIn()
               ? <Main
-                  user={this.state.user}
-                  signOut={this.signOut}
+                  {...mainProps}
                   {...navProps}
                 />
               : <Redirect to="/sign-in" />

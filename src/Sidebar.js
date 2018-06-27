@@ -2,8 +2,9 @@ import React from 'react'
 
 import UserInfo from './UserInfo'
 import RoomList from './RoomList'
+import DirectMessageList from './DirectMessageList'
 
-const Sidebar = ({ user, signOut, loadRoom }) => {
+const Sidebar = ({ user, signOut, users, rooms, addRoom }) => {
   return (
     <aside
       className="Sidebar"
@@ -14,7 +15,18 @@ const Sidebar = ({ user, signOut, loadRoom }) => {
         signOut={signOut}
       />
       <h1 style={styles.h1}>XTBC 18</h1>
-      <RoomList />
+      <RoomList
+        users={users}
+        user={user}
+        rooms={rooms}
+        addRoom={addRoom}
+      />
+      <DirectMessageList
+        users={users}
+        user={user}
+        rooms={rooms}
+        addRoom={addRoom}
+      />
     </aside>
   )
 }

@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, css } from 'aphrodite'
 
-
-import { auth, ,googleProvider, twitterProvider} from './base'
+import { auth, googleProvider, githubProvider, twitterProvider } from './base'
 
 class SignIn extends Component {
   state = {
@@ -20,16 +19,20 @@ class SignIn extends Component {
 
   authenticate = () => {
     auth.signInWithPopup(googleProvider)
-    
   }
 
-  authenticateTwitter =() => {
+  authenticateTwitter = () => {
     auth.signInWithPopup(twitterProvider)
+      .then(result => this.props.handleAuth(result.user))
+      .catch(error => console.log(error))
+  }
+
+  authenticateGithub = () => {
+    auth.signInWithPopup(githubProvider)
     .then(result => this.props.handleAuth(result.user))
     .catch(error => console.log(error))
+  
   }
-
-
 
   render() {
     return (
@@ -59,24 +62,32 @@ class SignIn extends Component {
             <button type="submit" className={css(styles.button)}>
               Sign In
             </button>
-
             <div>or</div> */}
+              <button
+              type="button"
+              className={css(styles.button, styles.twitter)}
+              onClick={this.authenticateTwitter}
+            >
+              <i className={`fab fa-twitter ${css(styles.brandIcon)}`}></i>
+              Sign in with Twitter
+            </button>
+
+             <button
+              type="button"
+              className={css(styles.button, styles.github)}
+              onClick={this.authenticateGithub}
+            >
+              <i className={`fab fa-github ${css(styles.brandIcon)}`}></i>
+               Sign in with Github
+            </button>
 
             <button
               type="button"
-              className={css(styles.button,styles.)}
-              onClick={this.authenticateGithub}
+              className={css(styles.button)}
+              onClick={this.authenticate}
             >
-               <button classname={css(styles.button)}>
-
-
-              <i className={`fab fa-twitter ${css(styles.brandIcon)}`}></i>
-              Sign in with Github
-            </button>
-          </form>
-
-               <i className={`fab fa-twitter ${css(styles.github)}`}></i>
-              Sign in with Twitter
+              <i className={`fab fa-google ${css(styles.brandIcon)}`}></i>
+              Sign in with Google
             </button>
           </form>
 
@@ -89,7 +100,6 @@ class SignIn extends Component {
     )
   }
 }
-
 const styles = StyleSheet.create({
   signIn: {
     display: 'flex',
@@ -97,7 +107,6 @@ const styles = StyleSheet.create({
     height: '100vh',
     backgroundColor: '#f6f6f6',
   },
-
   header: {
     backgroundColor: '#fff',
     height: '4rem',
@@ -107,7 +116,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     boxShadow: '0 1px 1px rgba(0,0,0,.1)',
   },
-
   title: {
     color: '#ff3344',
     fontWeight: 400,
@@ -115,15 +123,13 @@ const styles = StyleSheet.create({
     lineHeight: '80px',
     fontSize: '2rem',
   },
-
-  twitter:{
-    backgroundColor: 'blue'
-  }
-  github:{
-    backgroundColor:  'red'
-    color: 'white'
-  }
-
+  twitter: {
+    backgroundColor: 'blue',
+  },
+  github: {
+    backgroundColor: 'black',
+    color: 'white',
+  },
   main: {
     flex: 1,
     textAlign: 'center',
@@ -133,24 +139,18 @@ const styles = StyleSheet.create({
     margin: '0 auto',
     paddingBottom: '3rem',
   },
-
   form: {
     width: '40rem',
     backgroundColor: 'white',
     boxShadow: '0 1px 1px rgba(0,0,0,.1)',
     marginBottom: '2rem',
     paddingBottom: '2rem',
-    paddingBottom: "2rem"
-
-
   },
-
   label: {
     display: 'block',
     textTransform: 'uppercase',
     color: '#999',
   },
-
   input: {
     width: '20rem',
     fontSize: '1.5rem',
@@ -160,16 +160,13 @@ const styles = StyleSheet.create({
     marginBottom: '1rem',
     textAlign: 'center',
     padding: '0.5rem',
-
     ':focus': {
       outline: 0,
     },
   },
-
   h2: {
     fontWeight: 'normal',
   },
-
   button: {
     display: 'block',
     margin: '0 auto',
@@ -181,10 +178,8 @@ const styles = StyleSheet.create({
     width: '20rem',
     cursor: 'pointer',
   },
-
   brandIcon: {
     marginRight: '1rem',
   }
 })
-
 export default SignIn
